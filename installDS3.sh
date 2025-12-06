@@ -1,9 +1,9 @@
 #!/bin/bash
 
-Required packages
+# Required packages
 REQUIRED_PKGS=("bluez" "bluez-plugins")
 
-Check if required packages are installed
+# Check if required packages are installed
 for pkg in "${REQUIRED_PKGS[@]}"; do
     if ! pacman -Qi "$pkg" &> /dev/null; then
         echo "Package '$pkg' is not installed. Skipping Bluetooth cleanup."
@@ -16,7 +16,7 @@ for pkg in "${REQUIRED_PKGS[@]}"; do
     fi
 done
 
-if the controllers were previously paired, you must remove them
+# if the controllers were previously paired, you must remove them
 devices=$(bluetoothctl devices Trusted)
 
 echo "$devices" | grep -E "PLAYSTATION(R)3" | while read -r line; do
