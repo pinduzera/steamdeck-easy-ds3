@@ -21,7 +21,6 @@ done
 devices=$(bluetoothctl devices Trusted)
 
 echo "$devices" | grep -E "PLAYSTATION(R)3" | while read -r line; do
-    # Extract MAC address (2nd field)
     mac=$(echo "$line" | awk '{print $2}')
     name=$(echo "$line" | cut -d' ' -f3-)
 
