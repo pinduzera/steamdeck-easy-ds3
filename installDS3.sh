@@ -2,20 +2,27 @@
 
 # Required packages
 REQUIRED_PKGS=("bluez" "bluez-plugins")
+MISSING_PKGS=()
 
-# Check if required packages are installed
 for pkg in "${REQUIRED_PKGS[@]}"; do
     if ! pacman -Qi "$pkg" &> /dev/null; then
-        echo "Package '$pkg' is not installed."
-        sudo steamos-readonly disable
-        sudo pacman-key --init
-        sudo pacman-key --populate archlinux
-        sudo pacman-key --populate holo
-
-        sudo pacman -S --noconfirm "$pkg"
+        echo "'$pkg' is not installed."
+        MISSING_PKGS+=("$pkg")
     fi
 done
 
+if (( ${#MISSING_PKGS[@]} > 0 )); then
+    echo "Installing missing packages: ${MISSING_PKGS[*]}"
+
+    sudo steamos-readonly disable
+    sudo pacman-key --init
+    sudo pacman-key --populate archlinux
+    sudo pacman-key --populate holo
+
+    sudo pacman -S --noconfirm "${MISSING_PKGS[@]}"
+else
+    echo "All required packages are already installed."
+fi
 
 # if the controllers were previously paired, you must remove them
 devices=$(bluetoothctl devices Trusted)
