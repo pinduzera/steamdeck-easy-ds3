@@ -27,7 +27,7 @@ fi
 # if the controllers were previously paired, you must remove them
 devices=$(bluetoothctl devices Trusted)
 
-echo "$devices" | grep -E "PLAYSTATION(R)3" | while read -r line; do
+echo "$devices" | grep -E "PLAYSTATION\(R\)3" | while read -r line; do
     mac=$(echo "$line" | awk '{print $2}')
     name=$(echo "$line" | cut -d' ' -f3-)
 
