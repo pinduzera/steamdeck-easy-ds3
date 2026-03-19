@@ -1,6 +1,13 @@
 #!/bin/bash
 
 # Required packages
+
+is_steamdeck=false
+if [ -f /etc/os-release ] && grep -q "SteamOS" /etc/os-release; then
+    echo "This is a Steam Deck"
+    is_steamdeck=true
+fi
+
 REQUIRED_PKGS=("bluez" "bluez-plugins")
 MISSING_PKGS=()
 
